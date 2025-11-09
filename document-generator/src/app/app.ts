@@ -194,25 +194,14 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
     this.isGenerating.set(true);
 
     try {
-      console.log('Début de la génération d\'image...');
-
-      // Attendre que toutes les images soient chargées
-      console.log('Attente du chargement des images...');
       await this.waitForImages();
-      console.log('Images chargées');
-
-      console.log('Capture du document...');
       const canvas = await this.captureDocument();
-      console.log('Document capturé, dimensions:', canvas.width, 'x', canvas.height);
-
-      // Convertir en image PNG de haute qualité
-      console.log('Conversion en PNG...');
+      
       const blob = await new Promise<Blob | null>((resolve) => {
         canvas.toBlob(resolve, 'image/png', 1.0);
       });
 
       if (blob) {
-        console.log('PNG généré, taille:', blob.size, 'bytes');
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         const fileName = `Communique_Officiel_N${this.documentData().communiqueNumber.replace(/\//g, '-')}_${new Date().toISOString().split('T')[0]}.png`;
@@ -224,15 +213,13 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
         document.body.removeChild(link);
 
         URL.revokeObjectURL(url);
-        console.log('Image téléchargée avec succès');
       } else {
         throw new Error('Impossible de créer le blob PNG');
       }
 
     } catch (error: any) {
-      console.error('Erreur détaillée lors de la génération de l\'image:', error);
-      console.error('Stack trace:', error.stack);
-      alert(`Erreur lors de la génération de l\'image: ${error.message || error}\n\nVeuillez vérifier la console (F12) pour plus de détails.`);
+      console.error('Erreur lors de la génération de l\'image:', error);
+      alert(`Erreur lors de la génération de l'image. Veuillez réessayer.`);
     } finally {
       this.isGenerating.set(false);
     }
@@ -243,23 +230,10 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
     this.isGenerating.set(true);
 
     try {
-      console.log('Début de la génération du PDF...');
-
-      // Attendre que toutes les images soient chargées
-      console.log('Attente du chargement des images...');
       await this.waitForImages();
-      console.log('Images chargées');
-
-      console.log('Capture du document...');
       const canvas = await this.captureDocument();
-      console.log('Document capturé, dimensions:', canvas.width, 'x', canvas.height);
-
-      console.log('Conversion en JPEG...');
       const imgData = canvas.toDataURL('image/jpeg', 0.95);
-      console.log('JPEG généré');
 
-      // Créer le PDF avec format A4
-      console.log('Création du PDF...');
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -267,14 +241,11 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
         compress: true
       });
 
-      const pdfWidth = 210; // A4 width in mm
-      const pdfHeight = 297; // A4 height in mm
-
-      // Calculer les dimensions pour remplir la page A4
+      const pdfWidth = 210;
+      const pdfHeight = 297;
       const imgWidth = pdfWidth;
       const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-      // Si l'image est plus haute que A4, l'adapter
       let finalWidth = imgWidth;
       let finalHeight = imgHeight;
       let yPosition = 0;
@@ -282,28 +253,18 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
       if (imgHeight > pdfHeight) {
         finalHeight = pdfHeight;
         finalWidth = (canvas.width * pdfHeight) / canvas.height;
-        // Centrer horizontalement si nécessaire
-        if (finalWidth < pdfWidth) {
-          yPosition = 0;
-        }
       } else {
-        // Centrer verticalement si l'image est plus petite
         yPosition = (pdfHeight - imgHeight) / 2;
       }
 
-      console.log('Ajout de l\'image au PDF...');
       pdf.addImage(imgData, 'JPEG', 0, yPosition, finalWidth, finalHeight, undefined, 'FAST');
 
-      // Télécharger le PDF avec un nom descriptif
       const fileName = `Communique_Officiel_N${this.documentData().communiqueNumber.replace(/\//g, '-')}_${new Date().toISOString().split('T')[0]}.pdf`;
-      console.log('Téléchargement du PDF:', fileName);
       pdf.save(fileName);
-      console.log('PDF téléchargé avec succès');
 
     } catch (error: any) {
-      console.error('Erreur détaillée lors de la génération du PDF:', error);
-      console.error('Stack trace:', error.stack);
-      alert(`Erreur lors de la génération du PDF: ${error.message || error}\n\nVeuillez vérifier la console (F12) pour plus de détails.`);
+      console.error('Erreur lors de la génération du PDF:', error);
+      alert(`Erreur lors de la génération du PDF. Veuillez réessayer.`);
     } finally {
       this.isGenerating.set(false);
     }

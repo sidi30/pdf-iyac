@@ -1,129 +1,81 @@
 # 📄 Générateur de Documents Officiels
 
-Application Angular pour générer facilement des documents officiels au format PDF avec en-tête, signature et cachet.
+Application Angular pour générer des documents officiels au format PDF pour Justice & Liberté - Voix Unies pour Ibrahim Yacoubou.
+
+## 🚀 Démarrage Rapide
+
+```bash
+# Installation
+npm install
+
+# Développement
+npm start
+
+# L'application s'ouvre sur http://localhost:4200
+```
+
+## 📦 Déploiement GitHub Pages
+
+```bash
+# Compiler et déployer en une commande
+npm run deploy
+```
+
+Le site sera accessible à : https://sidi30.github.io/pdf-iyac/
 
 ## ✨ Fonctionnalités
 
-- ✅ **Interface moderne et intuitive** - Formulaire simple pour saisir les informations
-- ✅ **Prévisualisation en temps réel** - Voir le document avant de le générer
-- ✅ **Génération PDF** - Téléchargement du document au format PDF
-- ✅ **Personnalisable** - Modifier le numéro, la date et le contenu
-- ✅ **Design professionnel** - Mise en page élégante avec en-tête, signature et cachet
-- ✅ **Responsive** - Fonctionne sur tous les appareils
+- ✅ Formulaire de saisie intuitif
+- ✅ Compteur de caractères (max 2500)
+- ✅ Prévisualisation en temps réel
+- ✅ Génération PDF haute qualité
+- ✅ Export Image PNG
+- ✅ Photo personnalisable
+- ✅ Design professionnel
 
-## 🚀 Installation et Démarrage
+## 📝 Utilisation
 
-### Prérequis
-- Node.js (version 18 ou supérieure)
-- npm (installé avec Node.js)
+1. Remplissez le numéro du communiqué
+2. Ajustez la date si nécessaire
+3. Rédigez votre contenu (max 2500 caractères)
+4. Optionnel : Changez la photo
+5. Cliquez sur "Télécharger PDF" ou "Télécharger Image"
 
-### Installation
-
-```bash
-# Installer les dépendances
-npm install
-```
-
-### Démarrage du serveur de développement
+## 🛠️ Commandes NPM
 
 ```bash
-# Démarrer l'application
-npm start
+npm start           # Lancer en développement
+npm run build:prod  # Compiler pour production
+npm run build:gh    # Compiler pour GitHub Pages
+npm run deploy      # Déployer sur GitHub Pages
 ```
 
-L'application sera accessible à l'adresse : **http://localhost:4200**
-
-## 📖 Utilisation
-
-1. **Ouvrir l'application** dans votre navigateur
-2. **Remplir le formulaire** :
-   - Numéro du communiqué (ex: 001/2024)
-   - Date (la date du jour est proposée par défaut)
-   - Contenu du document
-3. **Prévisualiser** le document dans la section de droite
-4. **Télécharger le PDF** en cliquant sur le bouton "Télécharger le PDF"
-
-## 🎨 Personnalisation
-
-### Modifier les images
-
-Les images sont situées dans le dossier `public/assets/images/` :
-- `justice-liberte.jpg` - Logo de l'en-tête
-- `signature.jpg` - Image de la signature
-- `cachet.jpg` - Image du cachet
-
-Remplacez ces fichiers par vos propres images pour personnaliser le document.
-
-### Modifier le style
-
-Le style de l'application peut être modifié dans :
-- `src/app/app.css` - Styles du composant principal
-- `src/styles.css` - Styles globaux
-
-### Modifier le contenu par défaut
-
-Dans le fichier `src/app/app.ts`, vous pouvez modifier :
-- Le numéro de communiqué par défaut
-- Le contenu du document par défaut
-- Le format de la date
-
-## 🏗️ Structure du Projet
+## 📁 Structure
 
 ```
 document-generator/
-├── public/
-│   └── assets/
-│       └── images/          # Images (logo, signature, cachet)
-├── src/
-│   ├── app/
-│   │   ├── app.ts          # Composant principal
-│   │   ├── app.html        # Template HTML
-│   │   └── app.css         # Styles du composant
-│   ├── styles.css          # Styles globaux
-│   └── index.html          # Page HTML principale
-├── package.json            # Dépendances npm
-└── README.md              # Ce fichier
+├── public/assets/images/    # Images (logo, signature, cachet, photo)
+├── src/app/                 # Code de l'application
+│   ├── app.ts              # Logique
+│   ├── app.html            # Template
+│   └── app.css             # Styles
+└── README.md               # Ce fichier
 ```
 
-## 📦 Technologies Utilisées
+## 🎨 Personnalisation
 
-- **Angular 19** - Framework web
-- **TypeScript** - Langage de programmation
-- **jsPDF** - Génération de PDF
-- **html2canvas** - Capture d'écran HTML vers image
-- **CSS3** - Styles modernes
+Les images sont dans `public/assets/images/` :
+- `justice-liberte.jpg` - Logo
+- `signature.jpg` - Signature
+- `cachet.jpg` - Cachet
+- `iyac.jpg` - Photo par défaut
 
-## 🛠️ Commandes Utiles
+## 📞 Contact
 
-```bash
-# Démarrer le serveur de développement
-npm start
-
-# Compiler pour la production
-npm run build
-
-# Lancer les tests
-npm test
-
-# Linter le code
-npm run lint
-```
-
-## 📝 Notes
-
-- Les documents sont générés côté client (dans le navigateur)
-- Aucune donnée n'est envoyée à un serveur
-- Les PDF sont générés à partir du HTML visible
-- La qualité du PDF dépend de la résolution de l'écran
-
-## 🤝 Support
-
-Pour toute question ou problème, contactez : liberteiyac@gmail.com
-
-## 📜 Licence
-
-Justice & Liberté - Voix Unies pour Ibrahim Yacouba © 2024
+Email: contact@liberteiyac.com  
+Tél: (+227) 95 45 96 88
 
 ---
 
-**Fait avec ❤️ pour la Justice et la Liberté**
+**Justice & Liberté - Voix Unies pour Ibrahim Yacoubou** 🕊️
+
