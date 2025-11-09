@@ -1,0 +1,180 @@
+<div class="app-container">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <img src="/assets/images/justice-liberte.jpg" alt="Justice & Liberté" class="header-logo">
+      <h1>Générateur de Documents Officiels</h1>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <!-- Formulaire de saisie -->
+    <div class="form-section">
+      <div class="form-card">
+        <h2>📝 Informations du Document</h2>
+        
+        <div class="form-group">
+          <label for="communiqueNumber">
+            <strong>Numéro du Communiqué</strong>
+          </label>
+          <input 
+            type="text" 
+            id="communiqueNumber"
+            [value]="documentData().communiqueNumber"
+            (input)="updateCommuniqueNumber($any($event.target).value)"
+            placeholder="Ex: 001/2024"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="date">
+            <strong>Date</strong>
+          </label>
+          <div class="date-input-group">
+            <input 
+              type="text" 
+              id="date"
+              [value]="documentData().date"
+              (input)="updateDate($any($event.target).value)"
+              placeholder="Ex: 9 novembre 2025"
+              class="form-input"
+            />
+            <button (click)="resetDate()" class="btn-reset" title="Réinitialiser à aujourd'hui">
+              📅
+            </button>
+          </div>
+          <small class="form-hint">Date actuelle: {{ getCurrentDate() }}</small>
+        </div>
+
+        <div class="form-group">
+          <label for="content">
+            <strong>Contenu du Document</strong>
+          </label>
+          <textarea 
+            id="content"
+            [value]="documentData().content"
+            (input)="updateContent($any($event.target).value)"
+            rows="15"
+            placeholder="Saisissez le contenu de votre document..."
+            class="form-textarea"
+          ></textarea>
+          <small class="form-hint">Le contenu sera formaté automatiquement dans le document</small>
+        </div>
+
+        <div class="action-buttons">
+          <button 
+            (click)="togglePreview()" 
+            class="btn btn-secondary"
+          >
+            {{ showPreview() ? '👁️ Masquer l\'aperçu' : '👁️ Afficher l\'aperçu' }}
+          </button>
+          
+          <button 
+            (click)="generateImage()" 
+            class="btn btn-success"
+            [disabled]="isGenerating()"
+          >
+            <span *ngIf="!isGenerating()">🖼️ Télécharger Image</span>
+            <span *ngIf="isGenerating()">⏳ Génération...</span>
+          </button>
+          
+          <button 
+            (click)="generatePDF()" 
+            class="btn btn-primary"
+            [disabled]="isGenerating()"
+          >
+            <span *ngIf="!isGenerating()">📥 Télécharger PDF</span>
+            <span *ngIf="isGenerating()">⏳ Génération...</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prévisualisation du document -->
+    <div class="preview-section" *ngIf="showPreview()">
+      <div class="preview-card">
+        <h2>👀 Aperçu du Document</h2>
+        
+        <div class="document-preview" #documentPreview>
+          <div class="document-page">
+            <!-- En-tête du document -->
+            <div class="doc-header">
+              <img 
+                src="/assets/images/justice-liberte.jpg" 
+                alt="Justice & Liberté" 
+                class="doc-logo"
+              />
+            </div>
+
+            <!-- Titre du communiqué -->
+            <div class="doc-title">
+              <h2 class="communique-title">COMMUNIQUÉ OFFICIEL N° {{ documentData().communiqueNumber }}</h2>
+              <div class="communique-subtitle">Comité Justice et Liberté / Voix Unies pour Ibrahim Yacoubou</div>
+            </div>
+
+            <!-- Informations du communiqué -->
+            <div class="doc-info">
+              <div class="doc-date">
+                <strong>Date :</strong> {{ documentData().date }}
+              </div>
+            </div>
+
+            <!-- Ligne de séparation -->
+            <div class="doc-separator"></div>
+
+            <!-- Contenu du document -->
+            <div class="doc-content">
+              <pre>{{ documentData().content }}</pre>
+            </div>
+
+            <!-- Signature et cachet -->
+            <div class="doc-footer">
+              <div class="signature-section">
+                <div class="signature-label">Le Coordinateur</div>
+                <img 
+                  src="/assets/images/signature.jpg" 
+                  alt="Signature" 
+                  class="signature-img"
+                />
+                <div class="signature-name">Dr Djibril Oumarou</div>
+              </div>
+              
+              <div class="stamp-section">
+                <img 
+                  src="/assets/images/cachet.jpg" 
+                  alt="Cachet" 
+                  class="stamp-img"
+                />
+              </div>
+            </div>
+
+            <!-- Photo et Contact -->
+            <div class="doc-bottom">
+              <div class="photo-section">
+                <img 
+                  src="/assets/images/iyac.jpg" 
+                  alt="Ibrahim Yacouba" 
+                  class="iyac-photo"
+                />
+                <div class="photo-caption">Ibrahim Yacouba</div>
+              </div>
+              
+              <div class="doc-contact">
+                <p>
+                  <strong>Email:</strong> contact&#64;liberteiyac.com<br>
+                  <strong>📞 Tél:</strong> (+227) 95 45 96 88
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Justice & Liberté - Voix Unies pour Ibrahim Yacouba © {{ currentYear }}</p>
+  </footer>
+</div>
