@@ -38,7 +38,7 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
   isGenerating = signal(false);
   showPreview = signal(true);
   currentYear = new Date().getFullYear();
-  customPhotoUrl = signal<string>('/assets/images/iyac.jpg');
+  customPhotoUrl = signal<string>('assets/images/iyac.jpg');
   maxCharacters = 2500;
 
   // Obtenir la date actuelle au format français
@@ -110,7 +110,7 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
 
   // Réinitialiser la photo par défaut
   resetPhoto() {
-    this.customPhotoUrl.set('/assets/images/iyac.jpg');
+    this.customPhotoUrl.set('assets/images/iyac.jpg');
   }
 
   // Attendre que toutes les images soient chargées
