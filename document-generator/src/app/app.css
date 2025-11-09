@@ -101,10 +101,28 @@
 }
 
 .form-group label {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 0.5rem;
   color: var(--text-dark);
   font-size: 0.95rem;
+}
+
+.char-counter {
+  font-size: 0.85rem;
+  color: var(--secondary-color);
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  background: rgba(52, 152, 219, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.char-counter.over-limit {
+  color: var(--accent-color);
+  background: rgba(231, 76, 60, 0.1);
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
 .form-input,
@@ -129,6 +147,16 @@
   resize: vertical;
   min-height: 300px;
   line-height: 1.6;
+}
+
+.form-textarea.over-limit {
+  border-color: var(--accent-color);
+  background: rgba(231, 76, 60, 0.02);
+}
+
+.form-textarea.over-limit:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
 }
 
 .date-input-group {
@@ -195,6 +223,12 @@
   margin-top: 0.5rem;
   color: var(--text-light);
   font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.form-hint.warning {
+  color: var(--accent-color);
+  font-weight: 600;
 }
 
 /* Buttons */
@@ -295,7 +329,7 @@
 
 .document-page {
   background: white;
-  padding: 1.5rem 2rem;
+  padding: 1rem 1.5rem;
   min-height: 29.7cm;
   max-height: 29.7cm;
   width: 21cm;
@@ -309,8 +343,8 @@
 /* Document header */
 .doc-header {
   text-align: center;
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.3rem;
+  margin-bottom: 0.3rem;
+  padding-bottom: 0.2rem;
   border-bottom: 1px solid var(--gold-color);
 }
 
@@ -370,15 +404,15 @@
 
 /* Document content */
 .doc-content {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   flex: 1;
   overflow: hidden;
 }
 
 .doc-content pre {
   font-family: 'Times New Roman', Georgia, serif;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 0.9rem;
+  line-height: 1.4;
   color: var(--text-dark);
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -390,8 +424,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
   border-top: 1px solid var(--border-color);
 }
 
@@ -401,22 +435,22 @@
 
 .signature-label {
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.2rem;
   color: var(--primary-color);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .signature-img {
-  width: 150px;
+  width: 120px;
   height: auto;
   object-fit: contain;
 }
 
 .signature-name {
   font-weight: 700;
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
   color: var(--primary-color);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .stamp-section {
@@ -424,8 +458,8 @@
 }
 
 .stamp-img {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
   opacity: 0.8;
 }
@@ -435,10 +469,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
   border-top: 1px solid var(--border-color);
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .photo-section {
@@ -447,8 +481,8 @@
 }
 
 .iyac-photo {
-  width: 90px;
-  height: 90px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--gold-color);
@@ -456,10 +490,10 @@
 }
 
 .photo-caption {
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
   font-weight: 600;
   color: var(--primary-color);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 /* Document contact */
@@ -470,8 +504,8 @@
 
 .doc-contact p {
   color: var(--text-light);
-  font-size: 0.85rem;
-  line-height: 1.6;
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
 
 /* Footer */
@@ -550,6 +584,17 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
   }
 }
 

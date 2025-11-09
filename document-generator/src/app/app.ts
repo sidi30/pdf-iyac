@@ -39,6 +39,7 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
   showPreview = signal(true);
   currentYear = new Date().getFullYear();
   customPhotoUrl = signal<string>('/assets/images/iyac.jpg');
+  maxCharacters = 2500;
 
   // Obtenir la date actuelle au format français
   getCurrentDate(): string {
@@ -49,6 +50,27 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
       day: 'numeric' 
     };
     return today.toLocaleDateString('fr-FR', options);
+  }
+
+  // Obtenir le nombre de caractères et calculer le restant
+  getCharacterCount(): string {
+    const current = this.documentData().content.length;
+    const remaining = this.maxCharacters - current;
+    const percentage = (current / this.maxCharacters) * 100;
+    
+    if (remaining < 0) {
+      return `⚠️ ${Math.abs(remaining)} caractères en trop`;
+    } else if (percentage > 90) {
+      return `⚠️ ${remaining} caractères restants`;
+    } else if (percentage > 75) {
+      return `${remaining} caractères restants`;
+    }
+    return `${current} / ${this.maxCharacters} caractères`;
+  }
+
+  // Vérifier si la limite est dépassée
+  isOverLimit(): boolean {
+    return this.documentData().content.length > this.maxCharacters;
   }
 
   // Mettre à jour les données du document
