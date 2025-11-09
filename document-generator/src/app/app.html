@@ -62,6 +62,25 @@
           <small class="form-hint">Le contenu sera formaté automatiquement dans le document</small>
         </div>
 
+        <div class="form-group">
+          <label for="photo">
+            <strong>Photo (Optionnelle)</strong>
+          </label>
+          <div class="photo-upload-group">
+            <input 
+              type="file" 
+              id="photo"
+              accept="image/*"
+              (change)="onPhotoChange($event)"
+              class="form-file"
+            />
+            <button (click)="resetPhoto()" class="btn-reset" title="Réinitialiser la photo par défaut">
+              🔄 Photo par défaut
+            </button>
+          </div>
+          <small class="form-hint">Photo affichée en bas du document (par défaut: Ibrahim Yacouba)</small>
+        </div>
+
         <div class="action-buttons">
           <button 
             (click)="togglePreview()" 
@@ -153,9 +172,10 @@
             <div class="doc-bottom">
               <div class="photo-section">
                 <img 
-                  src="/assets/images/iyac.jpg" 
-                  alt="Ibrahim Yacouba" 
+                  [src]="customPhotoUrl()" 
+                  alt="Photo" 
                   class="iyac-photo"
+                  crossorigin="anonymous"
                 />
                 <div class="photo-caption">Ibrahim Yacouba</div>
               </div>

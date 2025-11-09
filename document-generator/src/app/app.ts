@@ -38,6 +38,7 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
   isGenerating = signal(false);
   showPreview = signal(true);
   currentYear = new Date().getFullYear();
+  customPhotoUrl = signal<string>('/assets/images/iyac.jpg');
 
   // Obtenir la date actuelle au format français
   getCurrentDate(): string {
@@ -68,6 +69,51 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
     this.updateDate(this.getCurrentDate());
   }
 
+  // Gérer l'upload de photo
+  onPhotoChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (e.target?.result) {
+          this.customPhotoUrl.set(e.target.result as string);
+        }
+      };
+      
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Réinitialiser la photo par défaut
+  resetPhoto() {
+    this.customPhotoUrl.set('/assets/images/iyac.jpg');
+  }
+
+  // Attendre que toutes les images soient chargées
+  private async waitForImages(): Promise<void> {
+    const element = this.documentPreview.nativeElement;
+    const images = element.getElementsByTagName('img');
+    const promises: Promise<void>[] = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const img = images[i];
+      if (!img.complete) {
+        promises.push(
+          new Promise<void>((resolve) => {
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+          })
+        );
+      }
+    }
+
+    await Promise.all(promises);
+    // Attendre un peu plus pour être sûr
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+
   // Capturer le document en haute qualité
   private async captureDocument(): Promise<HTMLCanvasElement> {
     const element = this.documentPreview.nativeElement;
@@ -94,27 +140,34 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
     this.isGenerating.set(true);
     
     try {
+      // Attendre que toutes les images soient chargées
+      await this.waitForImages();
+      
       const canvas = await this.captureDocument();
       
       // Convertir en image PNG de haute qualité
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          const fileName = `Communique_Officiel_N${this.documentData().communiqueNumber.replace(/\//g, '-')}_${new Date().toISOString().split('T')[0]}.png`;
-          
-          link.href = url;
-          link.download = fileName;
-          link.click();
-          
-          URL.revokeObjectURL(url);
-        }
-        this.isGenerating.set(false);
-      }, 'image/png', 1.0);
+      const blob = await new Promise<Blob | null>((resolve) => {
+        canvas.toBlob(resolve, 'image/png', 1.0);
+      });
+      
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const fileName = `Communique_Officiel_N${this.documentData().communiqueNumber.replace(/\//g, '-')}_${new Date().toISOString().split('T')[0]}.png`;
+        
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        URL.revokeObjectURL(url);
+      }
       
     } catch (error) {
       console.error('Erreur lors de la génération de l\'image:', error);
       alert('Une erreur est survenue lors de la génération de l\'image. Veuillez réessayer.');
+    } finally {
       this.isGenerating.set(false);
     }
   }
@@ -124,6 +177,9 @@ Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos salutations di
     this.isGenerating.set(true);
     
     try {
+      // Attendre que toutes les images soient chargées
+      await this.waitForImages();
+      
       const canvas = await this.captureDocument();
       const imgData = canvas.toDataURL('image/jpeg', 0.98);
       
